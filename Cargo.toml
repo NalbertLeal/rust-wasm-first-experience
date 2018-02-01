@@ -1,0 +1,10 @@
+[package]
+name = "myproject"
+version = "0.1.0"
+authors = ["nalbe"]
+
+[dependencies]
+
+[lib]
+path = "src/lib.rs"
+crate-type = ["cdylib"]

@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <script>
+
+            var _CStringToString = (linearMemory, bytes, string_size) => {
+                const stringBuffer = new Uint8Array(linearMemory.buffer, bytes, string_size);
+
+                let str = '';
+                for (let i=0; i<stringBuffer.length; i++) {
+                    str += String.fromCharCode(stringBuffer[i]);
+                }
+                
+                return str;
+            }
+
+            fetch('myproject-small.wasm')
+                .then((res) => 
+                    res.arrayBuffer()
+                )
+                .then((buffer) => 
+                    WebAssembly.compile(buffer)
+                )
+                .then((module) => {
+                    WebAssembly.instantiate(module)
+                        .then((instance) => {
+                            const linearMemory = instance.exports.memory;
+                            console.log( _CStringToString( linearMemory, instance.exports.it_works(), instance.exports.it_works_size() ));
+                        })
+                })
+        
+            
+        </script>
+    </head>
+</html>
